@@ -71,6 +71,7 @@
                 <h1>Spotify Playlists</h1>
                 <div class="cardContainer">
                  
+
             </div>
 
             <div class="playbar">
@@ -85,19 +86,17 @@
                         <img id="previous" src="Assets/previous.png" alt="">
                         <img id="play" src="Assets/svgs/play.svg" alt="">
                         <img id="next" src="Assets/next.png" alt="">
-                        <img id="vol" src="Assets/svgs/volumef.svg" alt="">
-                        <input type="range" id="volume-slider" min="0" max="100" value="50" />
-                    </div>
+                        <div class="volume-container">
+                            <img src="Assets/svgs/volumef.svg" alt="Volume">
+                            <input type="range" class="volume" min="0" max="100" value="50">
+                        </div>
                     </div>
                     <div class="songtime"></div>
                 </div>
             </div>
 
-
-
         </div>
     </div>
-
 
     <script src="script.js"></script>
 </body>

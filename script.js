@@ -1,5 +1,6 @@
-let currentAudio; // To track the currently playing audio
+let currentAudio = new Audio(); // To track the currently playing audio
 let songUrls;
+let songNames = []; // Add this to store song names
 
 async function fetchSongs(folder) {
     try {
@@ -15,7 +16,7 @@ async function fetchSongs(folder) {
         let songs = Array.from(doc.querySelectorAll("a")).filter(a => a.href.endsWith(".mp3")); // Filter only .mp3 files
 
         // Create arrays for song names and URLs
-        let songNames = [];
+        songNames = [];
         songUrls = [];
 
         songs.forEach(a => {
@@ -246,6 +247,14 @@ async function main() {
     const previous = document.querySelector("#previous");
     const next = document.querySelector("#next");
 
+    // Function to update song info
+    function updateSongInfo(index) {
+        if (index >= 0 && index < songNames.length) {
+            document.querySelector(".songinfo").innerHTML = songNames[index];
+            document.querySelector("#play").src = "Assets/svgs/pause.svg";
+        }
+    }
+
     previous.addEventListener("click", () => {
         console.log("Previous clicked");
 
@@ -260,6 +269,7 @@ async function main() {
 
         let previousIndex = (index - 1 + normalizedSongUrls.length) % normalizedSongUrls.length;
         currentAudio.src = songUrls[previousIndex];
+        updateSongInfo(previousIndex);
         currentAudio.play();
     });
 
@@ -277,8 +287,22 @@ async function main() {
 
         let nextIndex = (index + 1) % normalizedSongUrls.length;
         currentAudio.src = songUrls[nextIndex];
+        updateSongInfo(nextIndex);
         currentAudio.play();
     });
+
+    // Add volume control functionality
+    const volumeSlider = document.querySelector(".volume");
+    volumeSlider.addEventListener("input", (e) => {
+        if (currentAudio) {
+            currentAudio.volume = e.target.value / 100;
+        }
+    });
+
+    // Set initial volume
+    if (currentAudio) {
+        currentAudio.volume = volumeSlider.value / 100;
+    }
 }
 
 main();
